@@ -16,7 +16,7 @@ do
 		xname=$((xbin + 1))
 		yname=$((ybin + 1))
   		platefolder="$(printf "p%0*d" 3 $iplate)"
-  		file=$platefolder/$brickID.$iplate.$xname.$yname.cp.root
+  		file=$platefolder/$brickID.$iplate.$xname.$yname.firstlinkcp.root
 		#file=p00$iplate/$brickID.$iplate.$xbin.$ybin.cp.root
   		if [ -f "$file" ]
    		then
