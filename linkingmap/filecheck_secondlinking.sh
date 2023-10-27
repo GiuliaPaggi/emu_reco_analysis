@@ -40,7 +40,7 @@ do
   			printf "%s" "$delim$item"
   			delim=","
 	done
-	echo .
-	echo .	
+	echo 
+	echo	
 	fi
 done
