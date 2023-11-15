@@ -102,7 +102,7 @@ goto question
         mkdir %NasDir%\
     )
     
-    xcopy %Dir%\ %NasDir%\ /D
+    xcopy %Dir%\ %NasDir%\ /D /E
     
 goto e
 
