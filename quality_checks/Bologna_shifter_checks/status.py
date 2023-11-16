@@ -37,7 +37,7 @@ def check_file_modification(file_path, max_window, is_stopped):
 
         last_mod = current_time - last_modified_time
 
-        # Check if the file has been modified within the last 10 minutes
+        # Check if the file has been modified within the last max_window minutes
         if last_mod < max_window*60:
             print(" " * len(text), end="\r")
             text = f"{curr_date}: The file {file_path} has been modified within the last {max_window} minutes." 
@@ -65,12 +65,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     brick = args.brick
     plate = args.plate
-    print(brick)
-    print(plate)
     
-    file_path = "Desktop/palline.txt"  # Replace with the path to your file
-    max_window = 1 #max minutes before sending warning
+    file_path = f"D:/RUN1_W5_B{brick}/P{plate}/tracks.obx"  # Replace with the path to your file
+    max_window = 30 #max minutes before sending warning
     is_stopped = False
     while (True):
         is_stopped = check_file_modification(file_path, max_window, is_stopped)
-        time.sleep(10)
+        time.sleep(20*60)    #check status every 20 min
