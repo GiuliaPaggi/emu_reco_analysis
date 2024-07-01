@@ -11,9 +11,9 @@ echo ********************** Do not open PAVICOM yet **********************
 echo.
 
 Set Initialdir=%cd%
-Set Dir=D:\RUN1_W5_B%1\P%2
-Set NasDir=F:\RUN1_W5_B%1\P%2
-Set PavDir=C:\LASSO_x64
+Set Dir=D:\RUN3_W2_B%1\P%2
+Set NasDir=F:\RUN3_W2_B%1\P%2
+Set PavDir=D:\disp_multi_mic1
 Set LogDir=PavicomLog
 
 
@@ -35,13 +35,20 @@ echo.
 if not exist %Dir%\%LogDir%\ (
     echo Copying log files
     mkdir %Dir%\%LogDir%\
-    xcopy %PavDir%\!OpTraProc.log %Dir%\%LogDir%\
     xcopy %PavDir%\!PAVCameraModule.log %Dir%\%LogDir%\
     xcopy %PavDir%\!PAVGuide.log %Dir%\%LogDir%\
-    xcopy %PavDir%\!PAVProcModule.log %Dir%\%LogDir%\
-    xcopy %PavDir%\!PAVPointRes.log %Dir%\%LogDir%\
-    xcopy %PavDir%\aaa.txt %Dir%\%LogDir%\
+    xcopy %PavDir%\!PAVProcModule.log %Dir%\%LogDir%
     xcopy %PavDir%\PAVICOM.cfg %Dir%\%LogDir%\
+    
+    mkdir %Dir%\%LogDir%\procsrv1
+    xcopy %PavDir%\procsrv1\OpTraProc_p1.cfg %Dir%\%LogDir%\procsrv1\
+    xcopy %PavDir%\procsrv1\OpTraProc_p*.log %Dir%\%LogDir%\procsrv1\
+    xcopy %PavDir%\procsrv1\!DispatchB.log %Dir%\%LogDir%\procsrv1\
+    
+    mkdir %Dir%\%LogDir%\mic1
+    xcopy %PavDir%\mic1\OpTraProc_p1.cfg %Dir%\%LogDir%\mic1\
+    xcopy %PavDir%\mic1\OpTraProc_p*.log %Dir%\%LogDir%\mic1\
+    xcopy %PavDir%\mic1\!DispatchA.log %Dir%\%LogDir%\mic1\
 )
 echo.
 echo ********************** Now you can open PAVICOM and move the stage **********************
@@ -92,7 +99,9 @@ echo not valid
 goto question
 
 :yes 
-
+    if exist %Dir%\thickness.png (
+      del %Dir%\tracks.obx
+    )
     echo ---------------------- Backing up on NAS ----------------------
     
     if exist %NasDir%\ (
