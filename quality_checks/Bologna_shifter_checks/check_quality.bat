@@ -11,9 +11,9 @@ echo ********************** Do not open PAVICOM yet **********************
 echo.
 
 Set Initialdir=%cd%
-Set Dir=D:\RUN3_W2_B%1\P%2
-Set NasDir=F:\RUN3_W2_B%1\P%2
-Set PavDir=D:\disp_multi_mic1
+Set Dir=D:\RUN2_W4_B%1\P%2
+Set NasDir=F:\RUN2_W4_B%1\P%2
+Set PavDir=D:\disp_local
 Set LogDir=PavicomLog
 
 
@@ -35,20 +35,15 @@ echo.
 if not exist %Dir%\%LogDir%\ (
     echo Copying log files
     mkdir %Dir%\%LogDir%\
-    xcopy %PavDir%\!PAVCameraModule.log %Dir%\%LogDir%\
-    xcopy %PavDir%\!PAVGuide.log %Dir%\%LogDir%\
-    xcopy %PavDir%\!PAVProcModule.log %Dir%\%LogDir%
-    xcopy %PavDir%\PAVICOM.cfg %Dir%\%LogDir%\
+    xcopy /q %PavDir%\!PAVCameraModule.log %Dir%\%LogDir%\
+    xcopy /q %PavDir%\!PAVGuide.log %Dir%\%LogDir%\
+    xcopy /q %PavDir%\!PAVProcModule.log %Dir%\%LogDir%
+    xcopy /q %PavDir%\PAVICOM.cfg %Dir%\%LogDir%\
     
-    mkdir %Dir%\%LogDir%\procsrv1
-    xcopy %PavDir%\procsrv1\OpTraProc_p1.cfg %Dir%\%LogDir%\procsrv1\
-    xcopy %PavDir%\procsrv1\OpTraProc_p*.log %Dir%\%LogDir%\procsrv1\
-    xcopy %PavDir%\procsrv1\!DispatchB.log %Dir%\%LogDir%\procsrv1\
-    
-    mkdir %Dir%\%LogDir%\mic1
-    xcopy %PavDir%\mic1\OpTraProc_p1.cfg %Dir%\%LogDir%\mic1\
-    xcopy %PavDir%\mic1\OpTraProc_p*.log %Dir%\%LogDir%\mic1\
-    xcopy %PavDir%\mic1\!DispatchA.log %Dir%\%LogDir%\mic1\
+    mkdir %Dir%\%LogDir%\localhost
+    xcopy /q %PavDir%\localhost\OpTraProc_p1.cfg %Dir%\%LogDir%\localhost\
+    xcopy /q %PavDir%\localhost\OpTraProc_p*.log %Dir%\%LogDir%\localhost\
+
 )
 echo.
 echo ********************** Now you can open PAVICOM and move the stage **********************
@@ -71,7 +66,7 @@ if not exist tracks.raw.root (
 if not exist cz.png (
     echo. 
     echo ---------------------- Doing quality plots ----------------------
-    root -q -b tracks.raw.root check_raw.C
+    root -q -b -l tracks.raw.root check_raw.C
 ) else (
     echo.
     echo Quality plots already saved
@@ -111,7 +106,7 @@ goto question
         mkdir %NasDir%\
     )
     
-    xcopy %Dir%\ %NasDir%\ /D /E
+    xcopy /q %Dir%\ %NasDir%\ /D /E
     
 goto e
 
@@ -121,10 +116,12 @@ echo ---------------------- NOT Backing up on NAS ----------------------
 echo.
 echo ---------------------- Renaming folder ----------------------
 
-Set ErrorDir=%Dir%_scanError
+cd ..
+FOR /f %%A IN ('dir /b /ad ^|find /c "%Dir%*" ') DO SET fcount=%%A
+
+Set ErrorDir=%Dir%_scanError%fcount%
 
 if not exist "%ErrorDir%" (   
-    echo No previous scan error
     cd ..
     move "%Dir%" "%ErrorDir%"
     goto e
