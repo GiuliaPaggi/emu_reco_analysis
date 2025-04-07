@@ -3,8 +3,11 @@ import time as t
 import sys
 import argparse
 import subprocess
-from skpy import Skype, SkypeMsg
+import requests
+import json
 from datetime import datetime, time
+
+WEBHOOK_URL = ""
 
 def quality(b, p):
     close_pavicom = 'start cmd /k kill_Pavicom.bat'
@@ -52,16 +55,18 @@ def tail_grep(filename, pattern):
         return []
 
 def send_alert(text):
-    username = "bolognascan@gmail.com"
-    password = ""
+    message_data = {
+        "text": f"**Alert from System**\n\n{text}"
+    }
 
-    sk = Skype(username, password)
+    headers = {"Content-Type": "application/json"}
 
-    ch = sk.chats["19:f4c38cdb04cc4c73aac08047e3bae313@thread.skype"]
-    ch.sendMsg(SkypeMsg.bold(text), rich=True)
- 
-    #contact = sk.contacts["live:.cid.2a260759f1cd797b"]
-    #contact.chat.sendMsg(SkypeMsg.bold(text), rich=True)
+    try:
+        response = requests.post(WEBHOOK_URL, headers=headers, data=json.dumps(message_data))
+        if response.status_code != 200:
+            print(f"Failed to send alert. Status code: {response.status_code}, Response: {response.text}")
+    except Exception as e:
+        print(f"Exception occurred while sending alert: {e}")
 
 def format_seconds(seconds):
     # Calculate hours, minutes, and remaining seconds
