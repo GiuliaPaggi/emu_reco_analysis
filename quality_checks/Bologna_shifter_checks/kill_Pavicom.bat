@@ -13,3 +13,5 @@ goto :loop
 
 :break
 echo Pavicom is closed 
+
+exit
