@@ -12,6 +12,4 @@ if "%pavicom%" == "false" (
 goto :loop
 
 :break
-echo Pavicom is closed 
-
-exit
+echo Pavicom is closed

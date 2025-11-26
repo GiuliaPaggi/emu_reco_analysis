@@ -20,7 +20,7 @@ void thickness()
   //draw_all();
   //draw_diff();
   draw_diff6();
-  printf("\n %d \n", hxy.xb);
+  //printf("\n %d \n", hxy.xb);
 }
 
 void draw_diff6()
@@ -100,7 +100,7 @@ void draw_diff6()
   Views->Draw( Form("eNsegments:eYview:eXview>>hxybot(%d,%f,%f,%d,%f,%f)",hxy.xb,hxy.xmin,hxy.xmax,hxy.yb,hxy.ymin,hxy.ymax),"eNframesTop==0","prof colz");
   c->cd(1)->SetGrid();
   Views->Draw( Form("eNsegments:eYview:eXview>>hxytop(%d,%f,%f,%d,%f,%f)",hxy.xb,hxy.xmin,hxy.xmax,hxy.yb,hxy.ymin,hxy.ymax),"eNframesTop!=0","prof colz");
- 
+  c->SaveAs("./thickness.png");
 }
 
 void draw_diff()

@@ -11,8 +11,8 @@ echo ********************** Do not open PAVICOM yet **********************
 echo.
 
 Set Initialdir=%cd%
-Set Dir=D:\RUN2_W4_B%1\P%2
-Set NasDir=F:\RUN2_W4_B%1\P%2
+Set Dir=D:\RUN3_W2_B%1\P%2
+Set NasDir=F:\RUN3_W2_B%1\P%2
 Set PavDir=D:\disp_local
 Set LogDir=PavicomLog
 
@@ -38,6 +38,7 @@ if not exist %Dir%\%LogDir%\ (
     xcopy /q %PavDir%\!PAVCameraModule.log %Dir%\%LogDir%\
     xcopy /q %PavDir%\!PAVGuide.log %Dir%\%LogDir%\
     xcopy /q %PavDir%\!PAVProcModule.log %Dir%\%LogDir%
+    xcopy /q %PavDir%\!Dispatch.log %Dir%\%LogDir%
     xcopy /q %PavDir%\PAVICOM.cfg %Dir%\%LogDir%\
     
     mkdir %Dir%\%LogDir%\localhost
@@ -66,7 +67,7 @@ if not exist tracks.raw.root (
 if not exist cz.png (
     echo. 
     echo ---------------------- Doing quality plots ----------------------
-    root -q -b -l tracks.raw.root check_raw.C
+    root -q -b -l tracks.raw.root C:\Users\sndlhc\emu_reco_analysis\quality_checks\check_raw.C
 ) else (
     echo.
     echo Quality plots already saved
@@ -75,7 +76,7 @@ if not exist cz.png (
 if not exist thickness.png (
     echo.
     echo ---------------------- Checking thickness ----------------------
-    root -q -l tracks.raw.root thickness.C 
+    root -q -l tracks.raw.root C:\Users\sndlhc\emu_reco_analysis\quality_checks\thickness.C 
 ) else (
     echo.
     echo Thickness plot already saved

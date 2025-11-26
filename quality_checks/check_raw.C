@@ -59,7 +59,11 @@ void init()
 void check_z(TCanvas *c)
 {
   c->cd(1);       cr_tree->Draw("eZ1:eXview:eYview");
+  cout << "done cz 1" << endl;
+
   c->cd(2);       cr_tree->Draw("eZ1:eAreaID*121+eViewID");
+  cout << "done cz 2" << endl;
+
   c->cd(3); {
     cr_tree->Draw("eNcl:eZframe-eZ2");
     cr_tree->SetMarkerColor(kBlue);
@@ -68,34 +72,59 @@ void check_z(TCanvas *c)
     cr_tree->Draw("eNcl:eZframe-eZ2","eNframesBot==0","same");
   }
   cr_tree->SetLineColor(1);
+  cout << "done cz 3" << endl;
 
   c->cd(4);       cr_tree->Draw("eZ2-eZ3");
   gStyle->SetOptStat("nemr");
   cr_tree->SetLineColor(kBlue);
+  cout << "done cz 4" << endl;
+
   c->cd(5);       cr_tree->Draw("eNcl:eFrameID","eNframesTop==0","prof");
   gStyle->SetOptStat("ne");
+  cout << "done cz 5" << endl;
   c->cd(7);       cr_tree->Draw("eZ0","eNframesTop==0");
   gStyle->SetOptStat("nemr");
   cr_tree->SetLineColor(kRed);
+  cout << "done cz 7" << endl;
   c->cd(6);       cr_tree->Draw("eNcl:eFrameID","eNframesBot==0","prof");
   gStyle->SetOptStat("ne");
+  cout << "done cz 6" << endl;
   c->cd(8);       cr_tree->Draw("eZ0","eNframesBot==0");
   gStyle->SetOptStat("nemr");
   cr_tree->SetLineColor(1);
+  cout << "done cz 8" << endl;
+  c->SaveAs("./cz.png");
+  cout << "cz saved" << endl;
 }
 
 //-------------------------------------------------------
 void check_view(TCanvas *c)
 {
   c->cd(1); cr_tree->Draw("eY0:eX0","eNframesTop==0&&puls>0","lego2");
+  cout << "done cview 1" << endl;
+
   c->cd(2); cr_tree->Draw("eY0:eX0","eNframesTop==0&&puls>0&&(abs(eTy)>.006||abs(eTx)>.006)","colZ");
+  cout << "done cview 2" << endl;
+
   c->cd(3); cr_tree->Draw("eY0:eX0","eNframesBot==0&&puls>0","lego2");
+  cout << "done cview 3" << endl;
+
   c->cd(4); cr_tree->Draw("eY0:eX0","eNframesBot==0&&puls>0&&(abs(eTy)>.006||abs(eTx)>.006)","colZ");
+  cout << "done cview 4" << endl;
 
   c->cd(5);  cr_tree->Draw("segments.eTx","puls>0");
+  cout << "done cview 5" << endl;
+
   c->cd(6);  cr_tree->Draw("segments.eTy","puls>0");
+  cout << "done cview 6" << endl;
+
   c->cd(7);  cr_tree->Draw("eTy:eTx","eNframesTop==0&&puls>0&&((abs(eTy)>.01||abs(eTx)>.01)) && abs(eTy)<.6 && abs(eTx)<.6","colZ");
+  cout << "done cview 7" << endl;
+
   c->cd(8);  cr_tree->Draw("eTy:eTx","eNframesBot==0&&puls>0&&((abs(eTy)>.01||abs(eTx)>.01)) && abs(eTy)<.6 && abs(eTx)<.6","colZ");
+  cout << "done cview 8" << endl;
+  c->SaveAs("./cview.png");
+  cout << "cview saved" << endl;
 }
 
 //-------------------------------------------------------
@@ -105,10 +134,14 @@ void check_surf(TCanvas *c)
     cr_tree->Draw("eYview:eXview");
     cr_tree->Draw("eYview+eY0:eXview+eX0","eNframesTop==0&&puls>0","samecontZ");
   }
+  cout << "done csurf 1" << endl;
+
   c->cd(2);{
     cr_tree->Draw("eYview:eXview");
     cr_tree->Draw("eYview+eY0:eXview+eX0","eNframesBot==0&&puls>0","samecontZ");
   }
+  cout << "done csurf 2" << endl;
+
   c->cd(3); { 
     cr_tree->Draw("eNsegments");
     cr_tree->SetLineColor(kBlue);
@@ -117,6 +150,8 @@ void check_surf(TCanvas *c)
     cr_tree->Draw("eNsegments>>htop","eNframesBot==0","same");
   }
   cr_tree->SetLineColor(1);
+  cout << "done csurf 3" << endl;
+
   c->cd(4); {
     cr_tree->Draw("Sum$(eNcl)");
     cr_tree->SetLineColor(kBlue);
@@ -125,6 +160,8 @@ void check_surf(TCanvas *c)
     cr_tree->Draw("Sum$(eNcl)","eNframesBot==0","same");
   }
   cr_tree->SetLineColor(1);
+  cout << "done csurf 4" << endl;
+
   c->cd(5); {
     cr_tree->Draw("puls");
     cr_tree->SetLineColor(kBlue);
@@ -133,6 +170,8 @@ void check_surf(TCanvas *c)
     cr_tree->Draw("puls","eNframesBot==0","same");
   }
   cr_tree->SetLineColor(1);
+  cout << "done csurf 5" << endl;
+
   c->cd(6); {
     cr_tree->Draw("volume");
     cr_tree->SetLineColor(kBlue);
@@ -141,6 +180,8 @@ void check_surf(TCanvas *c)
     cr_tree->Draw("volume","eNframesBot==0","same");
   }
   cr_tree->SetLineColor(1);
+  cout << "done csurf 6" << endl;
+
   c->cd(7); {
     cr_tree->Draw("eSigmaX");
     cr_tree->SetLineColor(kBlue);
@@ -149,6 +190,8 @@ void check_surf(TCanvas *c)
     cr_tree->Draw("eSigmaX","eNframesBot==0","same");
   }
   cr_tree->SetLineColor(1);
+  cout << "done csurf 7" << endl;
+
   c->cd(8); {
     cr_tree->Draw("eSigmaY");
     cr_tree->SetLineColor(kBlue);
@@ -157,6 +200,9 @@ void check_surf(TCanvas *c)
     cr_tree->Draw("eSigmaY","eNframesBot==0","same");
   }
   cr_tree->SetLineColor(1);
+  cout << "done csurf 8" << endl;
+  c->SaveAs("./csurf.png");
+  cout << "csurf saved" << endl;
 }
 
 //-------------------------------------------------------
