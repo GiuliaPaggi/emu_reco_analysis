@@ -107,13 +107,13 @@ def check_file_modification(file_path, max_window, is_stopped, b, p):
                 print(text, end="\r")
                 return True
             else:
-                print(" " * len(text), end="\r")
-                text = f"{curr_date}: [WARNING] The file {file_path} last update was {format_seconds(last_mod)} ago ({last_date})."
-                print(text, end="\r")
-                send_alert("[MIC 1] "+ text)
-                print("\n")
-                quality(b, p)
-                sys.exit()
+                #print(" " * len(text), end="\r")
+                #text = f"{curr_date}: [WARNING] The file {file_path} last update was {format_seconds(last_mod)} ago ({last_date})."
+                #print(text, end="\r")
+                #send_alert("[MIC 1] "+ text)
+                #print("\n")
+                #quality(b, p)
+                #sys.exit()
                 return False
 
     except FileNotFoundError:
@@ -131,11 +131,30 @@ if __name__ == "__main__":
     brick = args.brick
     plate = args.plate
     
-    file_path = f"D:/RUN3_W2_B{brick}/P{plate}/tracks.obx"  # Replace with the path to your file
+    #file_path = f"D:/RUN3_W2_B{brick}/P{plate}/tracks.obx"  # Replace with the path to your file
+    base_path = f"D:/RUN3_W2_B{brick}/P{plate}"
     max_window = 120 #max minutes before sending warning
     is_stopped = False
     while (True):
-        is_stopped = check_file_modification(file_path, max_window, is_stopped, brick, plate)
+        file_paths = glob.glob(os.path.join(base_path, "tracks.obx*"))
+        any_recent = False
+
+        for file_path in file_paths:
+            res = check_file_modification(file_path, max_window, is_stopped, brick, plate)
+            if res:
+                any_recent = True
+                
+        if not any_recent:
+            print(" " * len(text), end="\r")
+            text = f"{curr_date}: [WARNING] The file {file_path} last update was {format_seconds(last_mod)} ago ({last_date})."
+            print(text, end="\r")
+            send_alert("[MIC 1] " + text)
+            print("\n")
+            quality(brick, plate)
+            sys.exit()
+
+                
+        #is_stopped = check_file_modification(file_path, max_window, is_stopped, brick, plate)
         t.sleep(10*60)    #check status every 10 min
         if (not is_between_8am_and_8pm()):
             t.sleep(get_seconds_until_8am())
